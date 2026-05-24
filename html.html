@@ -1,0 +1,2458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legacy Brothers Markets | Premium Trading Courses</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #f0b90b;
+            --gold-dark: #c99a09;
+            --dark-bg: #0a0e17;
+            --card-bg: #111827;
+            --card-hover: #1a2332;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --accent-green: #00d4aa;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --gradient-gold: linear-gradient(135deg, #f0b90b, #f7d070, #f0b90b);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bg-animation .line {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            top: 0;
+            background: linear-gradient(to bottom, transparent, rgba(240, 185, 11, 0.1), transparent);
+            animation: dropLine 7s infinite;
+            opacity: 0;
+        }
+
+        @keyframes dropLine {
+            0% { opacity: 0; transform: translateY(-100%); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(100%); }
+        }
+
+        .bg-animation .line:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 6s; }
+        .bg-animation .line:nth-child(2) { left: 25%; animation-delay: 1s; animation-duration: 8s; }
+        .bg-animation .line:nth-child(3) { left: 40%; animation-delay: 2s; animation-duration: 7s; }
+        .bg-animation .line:nth-child(4) { left: 55%; animation-delay: 0.5s; animation-duration: 9s; }
+        .bg-animation .line:nth-child(5) { left: 70%; animation-delay: 1.5s; animation-duration: 6s; }
+        .bg-animation .line:nth-child(6) { left: 85%; animation-delay: 3s; animation-duration: 8s; }
+        .bg-animation .line:nth-child(7) { left: 95%; animation-delay: 2.5s; animation-duration: 7s; }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(240, 185, 11, 0.2);
+            padding: 0 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 4px 30px rgba(240, 185, 11, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-gold);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 900;
+            color: #0a0e17;
+            font-family: 'Orbitron', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text .brand {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 900;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .logo-text .tagline {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--gradient-gold) !important;
+            color: #0a0e17 !important;
+            padding: 0.6rem 1.5rem !important;
+            border-radius: 8px;
+            font-weight: 700 !important;
+            -webkit-text-fill-color: #0a0e17 !important;
+        }
+
+        .nav-cta::after {
+            display: none !important;
+        }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 2rem 80px;
+            background: radial-gradient(ellipse at center top, rgba(240, 185, 11, 0.08) 0%, transparent 60%);
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(240, 185, 11, 0.1);
+            border: 1px solid rgba(240, 185, 11, 0.3);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero-badge .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero h1 .highlight {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .btn-primary {
+            background: var(--gradient-gold);
+            color: #0a0e17;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(240, 185, 11, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 1rem 2.5rem;
+            border: 2px solid rgba(240, 185, 11, 0.3);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--gold);
+            background: rgba(240, 185, 11, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 4rem;
+            animation: fadeInUp 0.8s ease 0.8s both;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat .number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--gold);
+        }
+
+        .stat .label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Live Ticker */
+        .ticker-bar {
+            position: relative;
+            z-index: 1;
+            background: rgba(17, 24, 39, 0.8);
+            border-top: 1px solid rgba(240, 185, 11, 0.1);
+            border-bottom: 1px solid rgba(240, 185, 11, 0.1);
+            padding: 0.8rem 0;
+            overflow: hidden;
+        }
+
+        .ticker-content {
+            display: flex;
+            gap: 3rem;
+            animation: ticker 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .ticker-item .symbol {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .ticker-item .price {
+            color: var(--text-secondary);
+        }
+
+        .ticker-item .change.up {
+            color: var(--accent-green);
+        }
+
+        .ticker-item .change.down {
+            color: var(--accent-red);
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Course Tabs Section */
+        .courses-section {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 .highlight {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            background: var(--card-bg);
+            padding: 0.5rem;
+            border-radius: 16px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid rgba(240, 185, 11, 0.1);
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(240, 185, 11, 0.05);
+        }
+
+        .tab-btn.active {
+            background: var(--gradient-gold);
+            color: #0a0e17;
+            box-shadow: 0 4px 15px rgba(240, 185, 11, 0.3);
+        }
+
+        .tab-btn .tab-icon {
+            font-size: 1.1rem;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Course Cards Grid */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .course-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(240, 185, 11, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(240, 185, 11, 0.3);
+            box-shadow: 0 20px 60px rgba(240, 185, 11, 0.1);
+        }
+
+        .course-card .card-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent-red);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 2;
+        }
+
+        .course-card .card-badge.bestseller {
+            background: var(--gold);
+            color: #0a0e17;
+        }
+
+        .course-card .card-badge.new {
+            background: var(--accent-green);
+            color: #0a0e17;
+        }
+
+        .card-image {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image .overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .card-image.forex {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+        }
+
+        .card-image.crypto {
+            background: linear-gradient(135deg, #1a1a2e, #2d1b69, #11998e);
+        }
+
+        .card-image.stocks {
+            background: linear-gradient(135deg, #1a1a2e, #2c3e50, #3498db);
+        }
+
+        .card-image.commodities {
+            background: linear-gradient(135deg, #1a1a2e, #4a1942, #c99a09);
+        }
+
+        .card-image.technical {
+            background: linear-gradient(135deg, #1a1a2e, #1e3a5f, #00d4aa);
+        }
+
+        .card-image.beginner {
+            background: linear-gradient(135deg, #1a1a2e, #2d4a22, #00d4aa);
+        }
+
+        .card-image.advanced {
+            background: linear-gradient(135deg, #1a1a2e, #5c1a1a, #ef4444);
+        }
+
+        .card-image.options {
+            background: linear-gradient(135deg, #1a1a2e, #3a1c71, #d76d77);
+        }
+
+        .card-image.masterclass {
+            background: linear-gradient(135deg, #0a0e17, #f0b90b, #1a1a2e);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-category {
+            font-size: 0.75rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-body h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .card-body p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .card-meta .rating {
+            color: var(--gold);
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .price {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price .original {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+        }
+
+        .price .current {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--gold);
+        }
+
+        .btn-enroll {
+            background: var(--gradient-gold);
+            color: #0a0e17;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-enroll:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(240, 185, 11, 0.3);
+        }
+
+        /* Features Section */
+        .features-section {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 2rem 80px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(240, 185, 11, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(240, 185, 11, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .feature-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 2rem 80px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(240, 185, 11, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .testimonial-card .stars {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-card .quote {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .testimonial-card .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #0a0e17;
+        }
+
+        .testimonial-card .author-info .name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .testimonial-card .author-info .role {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Payment Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .payment-modal {
+            background: var(--card-bg);
+            border: 1px solid rgba(240, 185, 11, 0.2);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            padding: 2rem 2rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .modal-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-header .close-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-secondary);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-header .close-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+        }
+
+        .modal-course-info {
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-course-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: rgba(240, 185, 11, 0.1);
+        }
+
+        .modal-course-details h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .modal-course-details .modal-price {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .payment-methods {
+            padding: 0 2rem 2rem;
+        }
+
+        .payment-methods h3 {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 0.75rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .payment-option:hover {
+            border-color: rgba(240, 185, 11, 0.3);
+            background: rgba(240, 185, 11, 0.05);
+        }
+
+        .payment-option.selected {
+            border-color: var(--gold);
+            background: rgba(240, 185, 11, 0.1);
+        }
+
+        .payment-option .pay-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .payment-option .pay-icon.visa { background: linear-gradient(135deg, #1a1f71, #2e3192); }
+        .payment-option .pay-icon.paypal { background: linear-gradient(135deg, #003087, #009cde); }
+        .payment-option .pay-icon.crypto { background: linear-gradient(135deg, #f7931a, #ff9500); }
+        .payment-option .pay-icon.bank { background: linear-gradient(135deg, #2d5016, #4a8c1c); }
+        .payment-option .pay-icon.mobile { background: linear-gradient(135deg, #00a651, #00d4aa); }
+
+        .payment-option .pay-info h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .payment-option .pay-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .payment-option .radio {
+            margin-left: auto;
+            width: 22px;
+            height: 22px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .payment-option.selected .radio {
+            border-color: var(--gold);
+        }
+
+        .payment-option.selected .radio::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: var(--gold);
+            border-radius: 50%;
+        }
+
+        .payment-form {
+            padding: 0 2rem 2rem;
+            display: none;
+        }
+
+        .payment-form.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(240, 185, 11, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn-pay {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-gold);
+            color: #0a0e17;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-pay:hover {
+            box-shadow: 0 10px 40px rgba(240, 185, 11, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .secure-note {
+            text-align: center;
+            padding: 0 2rem 2rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        /* Success Modal */
+        .success-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 10001;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .success-modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .success-content {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 212, 170, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .success-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-green);
+        }
+
+        .success-content p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            position: relative;
+            z-index: 1;
+            background: var(--card-bg);
+            border-top: 1px solid rgba(240, 185, 11, 0.1);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand .brand {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 900;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .social-links a:hover {
+            background: rgba(240, 185, 11, 0.2);
+            color: var(--gold);
+        }
+
+        .footer-col h4 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .footer-bottom .payment-icons {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(10, 14, 23, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-bottom: 1px solid rgba(240, 185, 11, 0.2);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                gap: 1.5rem;
+            }
+
+            .stat .number {
+                font-size: 1.5rem;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .tab-btn .tab-text {
+                display: none;
+            }
+
+            .tab-btn .tab-icon {
+                font-size: 1.3rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(240, 185, 11, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(240, 185, 11, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animated Background Lines -->
+    <div class="bg-animation">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">LB</div>
+                <div class="logo-text">
+                    <span class="brand">LEGACY BROTHERS</span>
+                    <span class="tagline">MARKETS</span>
+                </div>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#courses">Courses</a></li>
+                <li><a href="#features">Why Us</a></li>
+                <li><a href="#testimonials">Reviews</a></li>
+                <li><a href="#" class="nav-cta" onclick="openModal('Free Starter Course', 0)">Get Started</a></li>
+            </ul>
+            <div class="mobile-toggle" id="mobileToggle" onclick="toggleMobile()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="pulse"></span>
+                Live Markets Open — Start Learning Today
+            </div>
+            <h1>Master The Markets With <span class="highlight">Legacy Brothers</span></h1>
+            <p>Join thousands of profitable traders worldwide. Our expert-led courses cover Forex, Crypto, Stocks, Commodities and advanced trading strategies that deliver real results.</p>
+            <div class="hero-buttons">
+                <a href="#courses" class="btn-primary">📈 Browse Courses</a>
+                <a href="#features" class="btn-secondary">🎯 Learn More</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="number">15K+</div>
+                    <div class="label">Active Students</div>
+                </div>
+                <div class="stat">
+                    <div class="number">97%</div>
+                    <div class="label">Success Rate</div>
+                </div>
+                <div class="stat">
+                    <div class="number">50+</div>
+                    <div class="label">Expert Mentors</div>
+                </div>
+                <div class="stat">
+                    <div class="number">4.9★</div>
+                    <div class="label">Average Rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Ticker -->
+    <div class="ticker-bar">
+        <div class="ticker-content" id="ticker">
+            <div class="ticker-item"><span class="symbol">EUR/USD</span> <span class="price">1.0892</span> <span class="change up">+0.34%</span></div>
+            <div class="ticker-item"><span class="symbol">GBP/USD</span> <span class="price">1.2654</span> <span class="change up">+0.21%</span></div>
+            <div class="ticker-item"><span class="symbol">BTC/USD</span> <span class="price">104,230</span> <span class="change up">+2.45%</span></div>
+            <div class="ticker-item"><span class="symbol">ETH/USD</span> <span class="price">2,547</span> <span class="change down">-0.87%</span></div>
+            <div class="ticker-item"><span class="symbol">XAU/USD</span> <span class="price">2,341</span> <span class="change up">+1.12%</span></div>
+            <div class="ticker-item"><span class="symbol">AAPL</span> <span class="price">198.11</span> <span class="change up">+0.56%</span></div>
+            <div class="ticker-item"><span class="symbol">TSLA</span> <span class="price">248.42</span> <span class="change down">-1.23%</span></div>
+            <div class="ticker-item"><span class="symbol">USD/JPY</span> <span class="price">154.32</span> <span class="change down">-0.15%</span></div>
+            <div class="ticker-item"><span class="symbol">OIL/USD</span> <span class="price">78.45</span> <span class="change up">+0.89%</span></div>
+            <div class="ticker-item"><span class="symbol">SPX500</span> <span class="price">5,321</span> <span class="change up">+0.67%</span></div>
+            <!-- Duplicate for seamless loop -->
+            <div class="ticker-item"><span class="symbol">EUR/USD</span> <span class="price">1.0892</span> <span class="change up">+0.34%</span></div>
+            <div class="ticker-item"><span class="symbol">GBP/USD</span> <span class="price">1.2654</span> <span class="change up">+0.21%</span></div>
+            <div class="ticker-item"><span class="symbol">BTC/USD</span> <span class="price">104,230</span> <span class="change up">+2.45%</span></div>
+            <div class="ticker-item"><span class="symbol">ETH/USD</span> <span class="price">2,547</span> <span class="change down">-0.87%</span></div>
+            <div class="ticker-item"><span class="symbol">XAU/USD</span> <span class="price">2,341</span> <span class="change up">+1.12%</span></div>
+            <div class="ticker-item"><span class="symbol">AAPL</span> <span class="price">198.11</span> <span class="change up">+0.56%</span></div>
+            <div class="ticker-item"><span class="symbol">TSLA</span> <span class="price">248.42</span> <span class="change down">-1.23%</span></div>
+            <div class="ticker-item"><span class="symbol">USD/JPY</span> <span class="price">154.32</span> <span class="change down">-0.15%</span></div>
+            <div class="ticker-item"><span class="symbol">OIL/USD</span> <span class="price">78.45</span> <span class="change up">+0.89%</span></div>
+            <div class="ticker-item"><span class="symbol">SPX500</span> <span class="price">5,321</span> <span class="change up">+0.67%</span></div>
+        </div>
+    </div>
+
+    <!-- Courses Section -->
+    <section class="courses-section" id="courses">
+        <div class="section-header">
+            <h2>Our <span class="highlight">Trading Courses</span></h2>
+            <p>Choose your path to financial freedom. From beginner basics to advanced institutional strategies.</p>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" onclick="switchTab('forex')">
+                <span class="tab-icon">💱</span>
+                <span class="tab-text">Forex</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('crypto')">
+                <span class="tab-icon">₿</span>
+                <span class="tab-text">Crypto</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('stocks')">
+                <span class="tab-icon">📊</span>
+                <span class="tab-text">Stocks</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('commodities')">
+                <span class="tab-icon">🥇</span>
+                <span class="tab-text">Commodities</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('technical')">
+                <span class="tab-icon">📐</span>
+                <span class="tab-text">Technical</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('masterclass')">
+                <span class="tab-icon">👑</span>
+                <span class="tab-text">Masterclass</span>
+            </button>
+        </div>
+
+        <!-- Forex Tab -->
+        <div class="tab-content active" id="tab-forex">
+            <div class="courses-grid">
+                <div class="course-card">
+                    <span class="card-badge bestseller">⭐ Bestseller</span>
+                    <div class="card-image forex">
+                        <div class="overlay">💱</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Forex Trading</div>
+                        <h3>Forex Fundamentals: From Zero to Profitable Trader</h3>
+                        <p>Master currency pair analysis, pip calculation, lot sizing, and build your first profitable trading strategy from scratch.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.9</span>
+                            <span>📚 42 Lessons</span>
+                            <span>⏱ 18 Hours</span>
+                            <span>👥 3,240 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$199.99</span>
+                                <span class="current">$49.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Forex Fundamentals', 49.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <span class="card-badge new">🆕 New</span>
+                    <div class="card-image forex" style="background: linear-gradient(135deg, #1a1a2e, #0f3460, #16213e);">
+                        <div class="overlay">📈</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Forex Trading</div>
+                        <h3>Advanced Forex: Smart Money Concepts & ICT</h3>
+                        <p>Learn institutional trading methods, order blocks, fair value gaps, liquidity sweeps, and smart money manipulation.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.8</span>
+                            <span>📚 56 Lessons</span>
+                            <span>⏱ 24 Hours</span>
+                            <span>👥 1,890 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$299.99</span>
+                                <span class="current">$89.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Advanced Forex SMC', 89.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="card-image forex" style="background: linear-gradient(135deg, #1a1a2e, #16213e, #1a3a5c);">
+                        <div class="overlay">🌍</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Forex Trading</div>
+                        <h3>Forex Scalping Mastery: 5-Minute Profit Strategy</h3>
+                        <p>Master the art of scalping with proven 5-minute strategies, quick entries, and tight risk management for daily profits.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.7</span>
+                            <span>📚 30 Lessons</span>
+                            <span>⏱ 12 Hours</span>
+                            <span>👥 2,100 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$149.99</span>
+                                <span class="current">$39.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Forex Scalping Mastery', 39.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Crypto Tab -->
+        <div class="tab-content" id="tab-crypto">
+            <div class="courses-grid">
+                <div class="course-card">
+                    <span class="card-badge bestseller">🔥 Hot</span>
+                    <div class="card-image crypto">
+                        <div class="overlay">₿</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Crypto Trading</div>
+                        <h3>Crypto Trading Complete: Bitcoin, Altcoins & DeFi</h3>
+                        <p>Complete guide to cryptocurrency trading including technical analysis, wallet security, DeFi yields, and portfolio management.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.9</span>
+                            <span>📚 48 Lessons</span>
+                            <span>⏱ 22 Hours</span>
+                            <span>👥 4,560 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$249.99</span>
+                                <span class="current">$69.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Crypto Trading Complete', 69.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="card-image crypto" style="background: linear-gradient(135deg, #1a1a2e, #2d1b69, #4a1942);">
+                        <div class="overlay">🚀</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Crypto Trading</div>
+                        <h3>Memecoin & Altcoin Gems: Finding 100x Opportunities</h3>
+                        <p>Learn how to research, identify, and trade emerging altcoins and memecoins before they explode. High risk, high reward strategies.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.6</span>
+                            <span>📚 25 Lessons</span>
+                            <span>⏱ 10 Hours</span>
+                            <span>👥 1,780 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$179.99</span>
+                                <span class="current">$59.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Memecoin & Altcoin Gems', 59.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <span class="card-badge new">🆕 New</span>
+                    <div class="card-image crypto" style="background: linear-gradient(135deg, #1a1a2e, #11998e, #2d1b69);">
+                        <div class="overlay">⛓️</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Crypto Trading</div>
+                        <h3>On-Chain Analysis: Trade Like a Crypto Whale</h3>
+                        <p>Master blockchain data analysis, whale tracking, smart money flows, and on-chain indicators for superior crypto trading.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.8</span>
+                            <span>📚 35 Lessons</span>
+                            <span>⏱ 15 Hours</span>
+                            <span>👥 980 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$199.99</span>
+                                <span class="current">$79.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('On-Chain Analysis', 79.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stocks Tab -->
+        <div class="tab-content" id="tab-stocks">
+            <div class="courses-grid">
+                <div class="course-card">
+                    <span class="card-badge bestseller">⭐ Top Rated</span>
+                    <div class="card-image stocks">
+                        <div class="overlay">📊</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Stock Trading</div>
+                        <h3>Stock Market Blueprint: Build Wealth Through Equities</h3>
+                        <p>Comprehensive stock market education covering fundamental analysis, value investing, growth stocks, and dividend strategies.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.9</span>
+                            <span>📚 50 Lessons</span>
+                            <span>⏱ 20 Hours</span>
+                            <span>👥 5,120 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$299.99</span>
+                                <span class="current">$79.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Stock Market Blueprint', 79.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="card-image stocks" style="background: linear-gradient(135deg, #1a1a2e, #2c3e50, #1a5276);">
+                        <div class="overlay">⚡</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Stock Trading</div>
+                        <h3>Day Trading Stocks: Momentum & Gap Strategies</h3>
+                        <p>Master intraday stock trading with momentum breakouts, gap-and-go patterns, VWAP strategies, and real-time execution.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.7</span>
+                            <span>📚 38 Lessons</span>
+                            <span>⏱ 16 Hours</span>
+                            <span>👥 2,340 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$249.99</span>
+                                <span class="current">$69.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Day Trading Stocks', 69.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <span class="card-badge new">🆕 New</span>
+                    <div class="card-image stocks" style="background: linear-gradient(135deg, #1a1a2e, #3498db, #2c3e50);">
+                        <div class="overlay">💼</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Stock Trading</div>
+                        <h3>Swing Trading Mastery: Capture Big Moves</h3>
+                        <p>Learn swing trading strategies to capture multi-day and multi-week price movements with precision entries and exits.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.8</span>
+                            <span>📚 32 Lessons</span>
+                            <span>⏱ 14 Hours</span>
+                            <span>👥 1,560 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$199.99</span>
+                                <span class="current">$59.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Swing Trading Mastery', 59.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Commodities Tab -->
+        <div class="tab-content" id="tab-commodities">
+            <div class="courses-grid">
+                <div class="course-card">
+                    <span class="card-badge bestseller">🥇 Popular</span>
+                    <div class="card-image commodities">
+                        <div class="overlay">🥇</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Commodities Trading</div>
+                        <h3>Gold & Silver Trading: Precious Metals Mastery</h3>
+                        <p>Master XAU/USD and XAG/USD trading with proven strategies for precious metals, understanding macro drivers and safe-haven flows.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.8</span>
+                            <span>📚 36 Lessons</span>
+                            <span>⏱ 15 Hours</span>
+                            <span>👥 2,890 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$219.99</span>
+                                <span class="current">$59.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Gold & Silver Trading', 59.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="card-image commodities" style="background: linear-gradient(135deg, #1a1a2e, #4a1942, #6b1d3a);">
+                        <div class="overlay">🛢️</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Commodities Trading</div>
+                        <h3>Oil & Energy Markets: Crude Oil Trading Strategies</h3>
+                        <p>Learn to trade WTI and Brent crude oil, understand OPEC dynamics, geopolitical impacts, and energy sector trading strategies.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.6</span>
+                            <span>📚 28 Lessons</span>
+                            <span>⏱ 12 Hours</span>
+                            <span>👥 1,240 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$189.99</span>
+                                <span class="current">$49.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Oil & Energy Markets', 49.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="card-image commodities" style="background: linear-gradient(135deg, #1a1a2e, #c99a09, #4a1942);">
+                        <div class="overlay">🌾</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Commodities Trading</div>
+                        <h3>Agricultural Commodities: Wheat, Corn & Coffee Trading</h3>
+                        <p>Explore agricultural commodity markets, seasonal patterns, weather impacts, and how to trade soft commodities profitably.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.5</span>
+                            <span>📚 22 Lessons</span>
+                            <span>⏱ 9 Hours</span>
+                            <span>👥 780 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$159.99</span>
+                                <span class="current">$44.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Agricultural Commodities', 44.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Analysis Tab -->
+        <div class="tab-content" id="tab-technical">
+            <div class="courses-grid">
+                <div class="course-card">
+                    <span class="card-badge bestseller">🏆 Must Take</span>
+                    <div class="card-image technical">
+                        <div class="overlay">📐</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Technical Analysis</div>
+                        <h3>Price Action Trading: Read Charts Like a Pro</h3>
+                        <p>Master candlestick patterns, support/resistance, trend lines, chart patterns, and pure price action trading without indicators.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.9</span>
+                            <span>📚 55 Lessons</span>
+                            <span>⏱ 25 Hours</span>
+                            <span>👥 6,780 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$349.99</span>
+                                <span class="current">$99.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Price Action Trading', 99.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="card-image technical" style="background: linear-gradient(135deg, #1a1a2e, #1e3a5f, #0f4c75);">
+                        <div class="overlay">📉</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Technical Analysis</div>
+                        <h3>Advanced Indicators: RSI, MACD, Bollinger & More</h3>
+                        <p>Deep dive into technical indicators, how to combine them, avoid false signals, and create your own custom indicator strategies.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.7</span>
+                            <span>📚 40 Lessons</span>
+                            <span>⏱ 18 Hours</span>
+                            <span>👥 3,450 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$249.99</span>
+                                <span class="current">$69.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Advanced Indicators', 69.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <span class="card-badge new">🆕 New</span>
+                    <div class="card-image technical" style="background: linear-gradient(135deg, #1a1a2e, #00d4aa, #1e3a5f);">
+                        <div class="overlay">🧠</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Technical Analysis</div>
+                        <h3>Wyckoff Method & Market Cycle Analysis</h3>
+                        <p>Learn the legendary Wyckoff Method for identifying accumulation, markup, distribution, and markdown phases in any market.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.8</span>
+                            <span>📚 34 Lessons</span>
+                            <span>⏱ 14 Hours</span>
+                            <span>👥 1,120 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$279.99</span>
+                                <span class="current">$89.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Wyckoff Method', 89.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Masterclass Tab -->
+        <div class="tab-content" id="tab-masterclass">
+            <div class="courses-grid">
+                <div class="course-card">
+                    <span class="card-badge bestseller">👑 Premium</span>
+                    <div class="card-image masterclass">
+                        <div class="overlay">👑</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Complete Package</div>
+                        <h3>Legacy Brothers Full Masterclass: All Markets Mastery</h3>
+                        <p>The ultimate trading education bundle. Every course, every strategy, lifetime access, private community, and 1-on-1 mentorship included.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 5.0</span>
+                            <span>📚 200+ Lessons</span>
+                            <span>⏱ 100+ Hours</span>
+                            <span>👥 890 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$999.99</span>
+                                <span class="current">$299.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('Full Masterclass Bundle', 299.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <span class="card-badge bestseller">🎯 Exclusive</span>
+                    <div class="card-image masterclass" style="background: linear-gradient(135deg, #0a0e17, #f0b90b, #c99a09);">
+                        <div class="overlay">🤝</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Mentorship</div>
+                        <h3>1-on-1 Private Mentorship with Legacy Brothers</h3>
+                        <p>Personal weekly sessions with our top traders. Custom strategy development, live trading reviews, and accountability coaching.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 5.0</span>
+                            <span>📚 12 Sessions</span>
+                            <span>⏱ 3 Months</span>
+                            <span>👥 120 Students</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$1,499.99</span>
+                                <span class="current">$499.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('1-on-1 Private Mentorship', 499.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="card-image masterclass" style="background: linear-gradient(135deg, #0a0e17, #1a1a2e, #f0b90b);">
+                        <div class="overlay">📱</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">Community</div>
+                        <h3>VIP Trading Signals & Community Access (Lifetime)</h3>
+                        <p>Get daily trading signals, market analysis, live trading sessions, and access to our exclusive private trading community forever.</p>
+                        <div class="card-meta">
+                            <span class="rating">⭐ 4.9</span>
+                            <span>📚 Daily Signals</span>
+                            <span>⏱ Lifetime</span>
+                            <span>👥 2,340 Members</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">
+                                <span class="original">$199.99/mo</span>
+                                <span class="current">$99.99</span>
+                            </div>
+                            <button class="btn-enroll" onclick="openModal('VIP Signals Lifetime', 99.99)">Enroll Now →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="section-header">
+            <h2>Why Choose <span class="highlight">Legacy Brothers</span></h2>
+            <p>We don't just teach trading — we build profitable traders.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">🎓</div>
+                <h4>Expert Instructors</h4>
+                <p>Learn from traders with 10+ years of real market experience and proven track records.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📱</div>
+                <h4>Lifetime Access</h4>
+                <p>Buy once, learn forever. All courses include free lifetime updates and new content additions.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">💬</div>
+                <h4>Private Community</h4>
+                <p>Join our exclusive Discord community for daily analysis, trade ideas, and networking.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔴</div>
+                <h4>Live Trading Sessions</h4>
+                <p>Watch our mentors trade live markets in real-time and learn execution in real conditions.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📋</div>
+                <h4>Trading Plans</h4>
+                <p>Get custom trading plan templates, risk management frameworks, and journal systems.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🏆</div>
+                <h4>Certification</h4>
+                <p>Earn a Legacy Brothers certificate upon completion to showcase your trading education.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔄</div>
+                <h4>Money-Back Guarantee</h4>
+                <p>30-day full refund policy. If you're not satisfied, we'll refund you — no questions asked.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🌍</div>
+                <h4>Global Students</h4>
+                <p>Join 15,000+ students from 80+ countries building their trading careers with us.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="section-header">
+            <h2>Student <span class="highlight">Success Stories</span></h2>
+            <p>Real results from real traders who took action.</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <div class="quote">"I went from losing money consistently to being profitable within 3 months. The SMC course changed everything for me. Best investment I've ever made."</div>
+                <div class="author">
+                    <div class="avatar">JM</div>
+                    <div class="author-info">
+                        <div class="name">James Mitchell</div>
+                        <div class="role">Forex Trader • London, UK</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <div class="quote">"The crypto course helped me catch the last bull run perfectly. I made back my investment 50x over. The community is incredibly supportive too."</div>
+                <div class="author">
+                    <div class="avatar">SK</div>
+                    <div class="author-info">
+                        <div class="name">Sarah Kim</div>
+                        <div class="role">Crypto Trader • Seoul, KR</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <div class="quote">"The masterclass bundle is insane value. I've taken courses that cost 10x more and didn't deliver half the quality. Legacy Brothers is the real deal."</div>
+                <div class="author">
+                    <div class="avatar">DA</div>
+                    <div class="author-info">
+                        <div class="name">David Adeyemi</div>
+                        <div class="role">Full-time Trader • Lagos, NG</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span class="brand">LEGACY BROTHERS MARKETS</span>
+                <p>Empowering traders worldwide with institutional-grade education, proven strategies, and a supportive community. Your trading legacy starts here.</p>
+                <div class="social-links">
+                    <a href="#">📘</a>
+                    <a href="#">🐦</a>
+                    <a href="#">📸</a>
+                    <a href="#">💬</a>
+                    <a href="#">📺</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Courses</h4>
+                <ul>
+                    <li><a href="#">Forex Trading</a></li>
+                    <li><a href="#">Crypto Trading</a></li>
+                    <li><a href="#">Stock Trading</a></li>
+                    <li><a href="#">Commodities</a></li>
+                    <li><a href="#">Technical Analysis</a></li>
+                    <li><a href="#">Masterclass Bundle</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Mentors</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Affiliate Program</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Legacy Brothers Markets. All rights reserved.</p>
+            <div class="payment-icons">
+                💳 🏦 ₿ 📱 🅿️
+            </div>
+        </div>
+    </footer>
+
+    <!-- Payment Modal -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="payment-modal">
+            <div class="modal-header">
+                <h2>💳 Secure Checkout</h2>
+                <button class="close-btn" onclick="closeModal()">✕</button>
+            </div>
+
+            <div class="modal-course-info">
+                <div class="modal-course-icon" id="modalCourseIcon">📚</div>
+                <div class="modal-course-details">
+                    <h4 id="modalCourseName">Course Name</h4>
+                    <span class="modal-price" id="modalCoursePrice">$0.00</span>
+                </div>
+            </div>
+
+            <div class="payment-methods">
+                <h3>Select Payment Method</h3>
+
+                <div class="payment-option selected" onclick="selectPayment(this, 'card')">
+                    <div class="pay-icon visa">💳</div>
+                    <div class="pay-info">
+                        <h4>Credit / Debit Card</h4>
+                        <p>Visa, Mastercard, American Express</p>
+                    </div>
+                    <div class="radio"></div>
+                </div>
+
+                <div class="payment-option" onclick="selectPayment(this, 'paypal')">
+                    <div class="pay-icon paypal">🅿️</div>
+                    <div class="pay-info">
+                        <h4>PayPal</h4>
+                        <p>Pay securely with your PayPal account</p>
+                    </div>
+                    <div class="radio"></div>
+                </div>
+
+                <div class="payment-option" onclick="selectPayment(this, 'crypto')">
+                    <div class="pay-icon crypto">₿</div>
+                    <div class="pay-info">
+                        <h4>Cryptocurrency</h4>
+                        <p>Bitcoin, Ethereum, USDT, USDC</p>
+                    </div>
+                    <div class="radio"></div>
+                </div>
+
+                <div class="payment-option" onclick="selectPayment(this, 'bank')">
+                    <div class="pay-icon bank">🏦</div>
+                    <div class="pay-info">
+                        <h4>Bank Transfer</h4>
+                        <p>Direct wire or ACH transfer</p>
+                    </div>
+                    <div class="radio"></div>
+                </div>
+
+                <div class="payment-option" onclick="selectPayment(this, 'mobile')">
+                    <div class="pay-icon mobile">📱</div>
+                    <div class="pay-info">
+                        <h4>Mobile Money</h4>
+                        <p>M-Pesa, MTN MoMo, Apple Pay, Google Pay</p>
+                    </div>
+                    <div class="radio"></div>
+                </div>
+            </div>
+
+            <!-- Card Form -->
+            <div class="payment-form active" id="form-card">
+                <div class="form-group">
+                    <label>Full Name on Card</label>
+                    <input type="text" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Expiry Date</label>
+                        <input type="text" placeholder="MM/YY" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="text" placeholder="123" maxlength="4">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="your@email.com">
+                </div>
+                <button class="btn-pay" onclick="processPayment()">🔒 Pay Now</button>
+            </div>
+
+            <!-- PayPal Form -->
+            <div class="payment-form" id="form-paypal">
+                <div class="form-group">
+                    <label>PayPal Email</label>
+                    <input type="email" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="John Doe">
+                </div>
+                <button class="btn-pay" onclick="processPayment()" style="background: linear-gradient(135deg, #003087, #009cde); color: white;">🅿️ Pay with PayPal</button>
+            </div>
+
+            <!-- Crypto Form -->
+            <div class="payment-form" id="form-crypto">
+                <div class="form-group">
+                    <label>Select Cryptocurrency</label>
+                    <select>
+                        <option>Bitcoin (BTC)</option>
+                        <option>Ethereum (ETH)</option>
+                        <option>USDT (TRC-20)</option>
+                        <option>USDC</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Your Email</label>
+                    <input type="email" placeholder="your@email.com">
+                </div>
+                <div style="background: rgba(240,185,11,0.1); border: 1px solid rgba(240,185,11,0.2); border-radius: 12px; padding: 1rem; text-align: center; margin-bottom: 1rem;">
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">You'll receive a wallet address after clicking pay below.</p>
+                    <p style="font-size: 0.8rem; color: var(--gold);">⏱ Payment link expires in 30 minutes</p>
+                </div>
+                <button class="btn-pay" onclick="processPayment()" style="background: linear-gradient(135deg, #f7931a, #ff9500); color: white;">₿ Pay with Crypto</button>
+            </div>
+
+            <!-- Bank Transfer Form -->
+            <div class="payment-form" id="form-bank">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Country</label>
+                    <select>
+                        <option>United States</option>
+                        <option>United Kingdom</option>
+                        <option>Nigeria</option>
+                        <option>South Africa</option>
+                        <option>Canada</option>
+                        <option>India</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">📋 Bank details will be sent to your email. Please allow 1-3 business days for processing.</p>
+                </div>
+                <button class="btn-pay" onclick="processPayment()" style="background: linear-gradient(135deg, #2d5016, #4a8c1c); color: white;">🏦 Request Bank Details</button>
+            </div>
+
+            <!-- Mobile Money Form -->
+            <div class="payment-form" id="form-mobile">
+                <div class="form-group">
+                    <label>Mobile Money Provider</label>
+                    <select>
+                        <option>M-Pesa</option>
+                        <option>MTN Mobile Money</option>
+                        <option>Airtel Money</option>
+                        <option>Apple Pay</option>
+                        <option>Google Pay</option>
+                        <option>Samsung Pay</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" placeholder="+254 712 345 678">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="your@email.com">
+                </div>
+                <button class="btn-pay" onclick="processPayment()" style="background: linear-gradient(135deg, #00a651, #00d4aa); color: white;">📱 Pay with Mobile Money</button>
+            </div>
+
+            <div class="secure-note">
+                🔒 256-bit SSL Encrypted • Your payment info is safe
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon">✅</div>
+            <h2>Payment Successful!</h2>
+            <p>Welcome to Legacy Brothers Markets! Your course access has been activated. Check your email for login details and course materials.</p>
+            <button class="btn-primary" onclick="closeSuccess()" style="width: 100%; justify-content: center;">🚀 Start Learning Now</button>
+        </div>
+    </div>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        function toggleMobile() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Remove active from all tabs and content
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            // Add active to selected
+            document.getElementById('tab-' + tabName).classList.add('active');
+
+            // Find and activate the correct button
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.getAttribute('onclick').includes(tabName)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Payment Modal
+        let selectedPaymentMethod = 'card';
+        let currentCourse = '';
+        let currentPrice = 0;
+
+        function openModal(courseName, price) {
+            currentCourse = courseName;
+            currentPrice = price;
+
+            document.getElementById('modalCourseName').textContent = courseName;
+            document.getElementById('modalCoursePrice').textContent = price === 0 ? 'FREE' : '$' + price.toFixed(2);
+
+            // Set icon based on course
+            const icons = {
+                'Free Starter Course': '🎁',
+                'Forex Fundamentals': '💱',
+                'Advanced Forex SMC': '📈',
+                'Forex Scalping Mastery': '🌍',
+                'Crypto Trading Complete': '₿',
+                'Memecoin & Altcoin Gems': '🚀',
+                'On-Chain Analysis': '⛓️',
+                'Stock Market Blueprint': '📊',
+                'Day Trading Stocks': '⚡',
+                'Swing Trading Mastery': '💼',
+                'Gold & Silver Trading': '🥇',
+                'Oil & Energy Markets': '🛢️',
+                'Agricultural Commodities': '🌾',
+                'Price Action Trading': '📐',
+                'Advanced Indicators': '📉',
+                'Wyckoff Method': '🧠',
+                'Full Masterclass Bundle': '👑',
+                '1-on-1 Private Mentorship': '🤝',
+                'VIP Signals Lifetime': '📱'
+            };
+
+            document.getElementById('modalCourseIcon').textContent = icons[courseName] || '📚';
+
+            document.getElementById('paymentModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('paymentModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function selectPayment(element, method) {
+            selectedPaymentMethod = method;
+
+            // Update selected state
+            document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+
+            // Show corresponding form
+            document.querySelectorAll('.payment-form').forEach(form => form.classList.remove('active'));
+            document.getElementById('form-' + method).classList.add('active');
+        }
+
+        function processPayment() {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Processing...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                closeModal();
+                document.getElementById('successModal').classList.add('active');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 2000);
+        }
+
+        function closeSuccess() {
+            document.getElementById('successModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on overlay click
+        document.getElementById('paymentModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) closeSuccess();
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Close mobile menu if open
+                    document.getElementById('navLinks').classList.remove('active');
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.course-card, .feature-card, .testimonial-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
